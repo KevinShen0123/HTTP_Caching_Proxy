@@ -1,12 +1,23 @@
 #include<iostream>
+#include<fstream>
 #include "network_utils.hpp"
 #include "clientInfo.hpp"
 #include<cstring>
 #include<pthread.h>
 #include<ctime>
+#include "parser.hpp"
 using namespace std;
-string logfile="./logs/poxy.log";
+ std::ofstream outputFile("./logs/proxy.log");
 pthread_mutex_t lock=PTHREAD_MUTEX_INITIALIZER;
+void handleGet(Parser* parser){
+
+}
+void handleConnect(Parser* parser){
+
+}
+void handlePost(Parser* parser){
+
+}
 string now(){
     // Get the current time
     std::time_t currentTime = std::time(nullptr);
@@ -34,9 +45,21 @@ void* handle_request(void* params){
         return NULL;
     }
     std::string requestMessage=std::string(buffer);
-    
+    if(requestMessage=="" || requestMessage=="\r"||requestMessage=="\n"){
+        return NULL;
+    }
+    Parser* parser=new Parser(requestMessage);
+    outputFile<<parser->getRequestHeader()<<"from"<<clientIP<<"@"<<now();
+    if(parser->getRequestType()=="GET"){
+        handleGet(parser);
+    }else if(parser->getRequestType()=="POST"){
+        handlePost(parser);
+    }else if(parser->getRequestType()=="CONNECT"){
+        handleConnect(parser);
+    }
     return NULL;
 }
+
 int main(){
     Network_UTILS* networkutils=new Network_UTILS();
     int serversocket=networkutils->build_server("12345");
