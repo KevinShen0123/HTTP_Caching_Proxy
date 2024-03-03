@@ -3,7 +3,7 @@ CXXFLAGS = -Wall -std=c++11  # Compiler flags
 TARGET = proxy        # Output executable
 
 # List of source files
-SRCS = Cache.cpp network_utils.cpp proxy.cpp
+SRCS = Cache.cpp  proxy.cpp
 
 # List of object files
 OBJS = $(SRCS:.cpp=.o)
