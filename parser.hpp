@@ -61,6 +61,8 @@ class Parser{
                             std::vector<string> params=split(line,":");
                             if(params.size()>1){
                               this->myMap[params[0]]=params[1];
+                            }else{
+                              break;
                             }
                        }
                        cnt+=1;
