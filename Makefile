@@ -1,5 +1,5 @@
 CXX = g++            # Compiler
-CXXFLAGS = -Wall -std=c++11  # Compiler flags
+CXXFLAGS = -Wall -std=c++11 -pthread # Compiler flags
 TARGET = proxy        # Output executable
 
 # List of source files
