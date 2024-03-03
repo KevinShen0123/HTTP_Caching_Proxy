@@ -25,6 +25,9 @@ class ClientInfo{
           string getIp(){
             return ip;
           }
+          int getRequestId(){
+            return request_id;
+          }
          
 };
 #endif

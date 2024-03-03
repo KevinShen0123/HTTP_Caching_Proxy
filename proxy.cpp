@@ -3,10 +3,38 @@
 #include "clientInfo.hpp"
 #include<cstring>
 #include<pthread.h>
+#include<ctime>
 using namespace std;
 string logfile="./logs/poxy.log";
 pthread_mutex_t lock=PTHREAD_MUTEX_INITIALIZER;
+string now(){
+    // Get the current time
+    std::time_t currentTime = std::time(nullptr);
+
+    // Convert the time to a tm structure
+    std::tm* timeInfo = std::localtime(&currentTime);
+
+    // Format the time as a string
+    char timeStr[30]; // Buffer to hold the formatted time
+    std::strftime(timeStr, sizeof(timeStr), "%a %b %e %T %Y", timeInfo);
+
+    // Print the formatted time
+    std::cout << "Formatted time: " << timeStr << std::endl;
+    return string(timeStr);
+}
 void* handle_request(void* params){
+    ClientInfo* info=(ClientInfo*)params;
+    int clientfd=info->getSocketFd();
+    string clientIP=info->getIp();
+    int request_id=info->getRequestId();
+    char buffer[65536];
+    int recvLength=recv(clientfd,buffer,sizeof(buffer),0);
+    if(recvLength<=0){
+        cerr<<"receive error"<<endl;
+        return NULL;
+    }
+    std::string requestMessage=std::string(buffer);
+    
     return NULL;
 }
 int main(){
