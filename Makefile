@@ -1,33 +1,27 @@
 CXX = g++            # Compiler
 CXXFLAGS = -Wall -std=c++11  # Compiler flags
-SRC_DIR = src         # Source code directory
-BUILD_DIR = build     # Build directory
 TARGET = proxy        # Output executable
 
 # List of source files
-SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+SRCS = Cache.cpp network_utils.cpp proxy.cpp
 
 # List of object files
-OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
+OBJS = $(SRCS:.cpp=.o)
 
 # Default target
-all: $(BUILD_DIR) $(TARGET)
+all: $(TARGET)
 
 # Rule to build the executable
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 # Rule to build object files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# Rule to create build directory
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
 
 # Clean rule
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET)
+	rm -f $(OBJS) $(TARGET)
 
 # Phony target to avoid conflicts with files named "all" or "clean"
 .PHONY: all clean
